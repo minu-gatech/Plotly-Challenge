@@ -23,6 +23,7 @@ db = SQLAlchemy(app)
 
 # reflect an existing database into a new model
 Base = automap_base()
+
 # reflect the tables
 Base.prepare(db.engine, reflect=True)
 
