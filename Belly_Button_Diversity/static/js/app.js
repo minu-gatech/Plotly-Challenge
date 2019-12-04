@@ -1,4 +1,6 @@
 
+
+/*********************************************************************/
 // Function to create display metdata
 function buildMetadata(sample) {  // 1
 
@@ -20,12 +22,13 @@ function buildMetadata(sample) {  // 1
 
           console.log(key,value);
           
-          // Apeending ul and li tags to display metaData
-          var ul = metaData_panel.append("ul");
+          // Appending ul and li tags to display metaData
+          /* var ul = metaData_panel.append("ul");
           ul.attr("style","list-style-position: inside");
           ul.attr("style","padding-left: 0");
           var li = ul.append("li");
-          li.text(`${key[0]} : ${key[1]}`);
+          li.text(`${key[0]} : ${key[1]}`); */
+          metaData_panel.append("h6").text(`${key[0]}: ${key[1]}`)
         
       }
     )
@@ -41,6 +44,7 @@ function buildMetadata(sample) {  // 1
 
 
 
+/*******************************************************/
 // Function to plot charts 
 function buildCharts(sample) {   // 1
 
@@ -61,52 +65,55 @@ function buildCharts(sample) {   // 1
       sample_labels_10 = sample_labels.slice(0,10);
       console.log(sample_labels_10);
 
-      /*  var sample_hoverText = sampleData.otu_lables;
-        sample_hoverText_10 = sample_hoverText.slice(0,10);
-        console.log(sample_hoverText_10);
-        */
+      // var sample_hoverText = sampleData.otu_lables;
+      // sample_hoverText_10 = sample_hoverText.slice(0,10);
+      // console.log(sample_hoverText_10);
+    
 
       //// Building a Pie Chart
-      var data = [{ values: sample_values_10,
+      var pieData = [{ values: sample_values_10,
                     labels : sample_labels_10,
-                  //hovertext : sample_hoverText,
-                  //hoverinfo:"text",
-                type:"pie"}]
+                    /* hovertext : sample_hoverText_10,
+                    hoverinfo:"hovertext", */
+                    type:"pie"}]
 
-      var layout = {
+      var pieLayout = {
         height: 500,
         width: 500
       };        
       
-      Plotly.newPlot('pie', data, layout);
+      Plotly.newPlot("pie", pieData, pieLayout);
 
 
 
       //// Building a Bubble Chart using the sample data
-      var sample_hoverText1 = sampleData.otu_labels;
-      console.log(sample_hoverText1);
+      var otu_labels = sampleData.otu_labels;
+      console.log(otu_labels);
 
       var trace1 = {
         x: sample_labels,
         y: sample_values,
-        text: sample_hoverText1,
+        text: otu_labels,
         mode: 'markers',
         marker: {
           size: sample_values,
-          color: sample_labels  }
+          color: sample_labels,
+        colorscale:"Portland"  }
       };
         
-      var data1 = [trace1];
+      var bubbleData = [trace1];
       
-      var layout1 = {
-        title: 'Bubble Chart',
+      var bubbleLayout = {
+        title: 'Diversity of cultured bacteria',
         showlegend: false,
         height: 600,
         width: 1400,
-        margin:{l:160,r:160}
+        margin:{l:160,r:160},
+        xaxis:{title:"OTU ID"},
+        hovermode: "closest"
       };
       
-      Plotly.newPlot('bubble', data1, layout1);
+      Plotly.newPlot('bubble', bubbleData, bubbleLayout);
       
   }  // 2
   ) // then() ends
@@ -114,7 +121,7 @@ function buildCharts(sample) {   // 1
 }  // 1
 
 
-
+/******************************************************************/
 // function to display default contents
 function init() {
   // Grab a reference to the dropdown select element
